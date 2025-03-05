@@ -1,0 +1,13 @@
+{
+  "name": "game-study",
+  "version": "0.0.1",
+  "description": "游戏化学习印尼语",
+  "author": "CodeBear <249900679@qq.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/cli": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
+    "@capacitor/ios": "^7.0.1"
+  }
+}
