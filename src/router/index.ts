@@ -35,16 +35,5 @@ export default route(function (/* { store, ssrContext } */) {
   // 初始化导航管理器
   NavigationManager.init(router);
 
-  // 添加导航守卫
-  router.beforeEach((to, from, next) => {
-    // 如果是从 tab 页面通过浏览器返回按钮返回，则阻止
-    if (NavigationManager.isTabPage(from.name as string) &&
-        window.history.state?.back) {
-      next(false);
-      return;
-    }
-    next();
-  });
-
   return router;
 });

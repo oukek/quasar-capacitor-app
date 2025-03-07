@@ -1,12 +1,12 @@
 <template>
-  <q-page class="flex flex-center">
+  <div class="flex flex-center">
     <div class="index-page">
       <h2>首页</h2>
       <div class="content">
         欢迎使用
       </div>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script setup lang="ts">

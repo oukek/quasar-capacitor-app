@@ -1,72 +1,70 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header v-if="showHeader" class="header bg-white text-black">
-      <div class="safe-area-top" />
-      <q-toolbar>
-        <q-btn
-          v-if="canGoBack"
-          flat
-          dense
-          :icon="'img:' + backIcon"
-          @click="navigateBack()"
-          class="back-button"
-        />
-        <q-toolbar-title class="text-center">
-          {{ currentRoute.meta.title || '首页' }}
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+  <div class="app-wrapper">
+    <van-config-provider>
+      <van-nav-bar
+        v-if="showHeader"
+        :title="pageTitle"
+        placeholder
+        fixed
+        :left-arrow="canGoBack"
+        @click-left="navigateBack"
+        safe-area-inset-top
+      />
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
+      <div class="content-wrapper">
+        <router-view>
+        </router-view>
+      </div>
 
-    <q-footer v-if="showTabBar" bordered class="bg-white">
-      <q-tabs
+      <van-tabbar
+        v-if="showTabBar"
         v-model="currentTab"
-        active-color="primary"
+        safe-area-inset-bottom
+        placeholder
+        active-color="#1989fa"
         inactive-color="#999"
-        indicator-color="transparent"
-        class="ios-tabs"
-        :breakpoint="0"
-        align="justify"
-        narrow-indicator
+        fixed
       >
-        <q-tab
-          v-for="tab in navigation.tabs"
-          :key="tab.name"
-          :name="String(tab.route.name)"
-          :icon="getTabIcon(tab)"
-          :label="tab.name"
-          @click="switchTab({ name: tab.route.name })"
+        <van-tabbar-item
+          v-for="(tab, index) in _tabBarList"
+          :key="index"
+          :name="index"
+          :badge="tab.badge || ''"
+          @click="switchTab(tab.route)"
         >
-          <q-badge
-            v-if="tab.badge"
-            color="red"
-            floating
-            class="badge-ios"
-          >
-            {{ tab.badge }}
-          </q-badge>
-        </q-tab>
-      </q-tabs>
-      <div class="safe-area-bottom" />
-    </q-footer>
-  </q-layout>
+          <template #icon="props">
+            <img :src="`/icons/tab-${tab.route.meta?.icon}${props.active ? '-active' : ''}.svg`" />
+          </template>
+          {{ tab.route.meta?.title }}
+        </van-tabbar-item>
+      </van-tabbar>
+    </van-config-provider>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
+import type { RouteRecordRaw} from 'vue-router';
 import { useRoute } from 'vue-router'
-import { defaultNavigation, type TabItem } from 'src/config/navigation'
+import { tabBarList } from 'src/router/tabbar'
 import { switchTab, navigateBack, NavigationManager } from 'src/utils/navigation'
 
 const route = useRoute()
-const navigation = defaultNavigation
 
-const currentTab = ref<string>(String(route.name))
-const currentRoute = computed(() => route)
-const backIcon = '/icons/back.svg'
+const currentTab = ref<number>(0)
+
+const _tabBarList = reactive<{
+  route: RouteRecordRaw
+  badge?: number | string
+}[]>(tabBarList.map(tab=> {
+  return {
+    route: tab,
+  }
+}))
+
+const pageTitle = computed(() => {
+  return (route.meta.title as string) || '首页'
+})
 
 const showHeader = computed(() => {
   return route.meta.showHeader !== false
@@ -82,101 +80,33 @@ const canGoBack = computed(() => {
     return false
   }
   // 其他情况下，如果有返回历史则显示返回按钮
-  return window.history.state?.back
+  return !!window.history.state?.back
 })
 
 // 是否显示底部标签栏
 const showTabBar = computed(() => {
-  return NavigationManager.isTabPage(route.name as string)
+  return tabBarList.length > 1 && NavigationManager.isTabPage(route.name as string)
 })
-
-// 获取tab图标
-const getTabIcon = (tab: TabItem) => {
-  return `img:/icons/tab-${tab.icon}${currentTab.value === String(tab.route.name) ? '-active' : ''}.svg`
-}
 
 // 监听路由变化，更新当前选中的 tab
 watch(() => route.name, (newName) => {
   if (newName) {
-    currentTab.value = String(newName)
+    currentTab.value = _tabBarList.findIndex(tab => tab.route.name === newName)
   }
-})
+}, { immediate: true })
 </script>
 
-<style lang="scss" scoped>
-.header {
-  border-bottom: 1px solid #ebedf0;
+<style lang="less" scoped>
+@import "src/styles/mixin.less";
 
-  .safe-area-top {
-    height: constant(safe-area-inset-top); /* iOS 11.0 */
-    height: env(safe-area-inset-top); /* iOS 11.2 */
-  }
-
-  .q-toolbar {
-    min-height: 44px;
-    padding: 0 16px;
-  }
-
-  .q-toolbar-title {
-    font-size: 17px;
-    font-weight: 600;
-  }
-
-  .back-button {
-    padding: 8px;
-    margin-left: -8px;
-  }
-}
-
-.q-footer {
-  border-top: 1px solid #ebedf0;
-
-  .safe-area-bottom {
-    height: constant(safe-area-inset-bottom); /* iOS 11.0 */
-    height: env(safe-area-inset-bottom); /* iOS 11.2 */
-  }
-
-  .ios-tabs {
-    height: 49px;
-    padding: 0;
-  }
-}
-
-:deep(.q-tab) {
-  padding: 4px 0;
-  min-height: 49px;
-  min-width: auto;
-  flex: 1;
-}
-
-:deep(.q-tabs__content) {
+.app-wrapper {
+  .clearfix();
+  position: relative;
+  height: 100%;
   width: 100%;
 }
 
-:deep(.q-tab__icon) {
-  height: 24px;
-  width: 24px;
-  margin-bottom: 2px;
-}
-
-:deep(.q-tab__label) {
-  font-size: 10px;
-  line-height: 1.2;
-  opacity: 1 !important;
-}
-
-:deep(.q-tab--inactive) {
-  .q-tab__label {
-    color: #999;
-    opacity: 1 !important;
-  }
-}
-
-.badge-ios {
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  font-size: 12px;
-  border-radius: 8px;
+.content-wrapper {
+  height: 100%;
 }
 </style>

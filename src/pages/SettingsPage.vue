@@ -1,81 +1,40 @@
 <template>
-  <q-page class="settings-page">
-    <q-list padding>
-      <q-item-label header>通用设置</q-item-label>
+  <div class="settings-page">
+    <van-cell-group inset title="通用设置">
+      <van-cell title="深色模式" label="切换应用的深色/浅色主题">
+        <template #right-icon>
+          <van-switch v-model="darkMode" />
+        </template>
+      </van-cell>
+      <van-cell title="消息通知" label="接收应用的推送通知">
+        <template #right-icon>
+          <van-switch v-model="notifications" />
+        </template>
+      </van-cell>
+    </van-cell-group>
 
-      <q-item tag="label">
-        <q-item-section>
-          <q-item-label>深色模式</q-item-label>
-          <q-item-label caption>切换应用的深色/浅色主题</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-toggle v-model="darkMode" />
-        </q-item-section>
-      </q-item>
+    <van-cell-group inset title="隐私设置">
+      <van-cell title="修改密码" is-link />
+      <van-cell title="隐私政策" is-link />
+    </van-cell-group>
 
-      <q-item tag="label">
-        <q-item-section>
-          <q-item-label>消息通知</q-item-label>
-          <q-item-label caption>接收应用的推送通知</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-toggle v-model="notifications" />
-        </q-item-section>
-      </q-item>
+    <van-cell-group inset title="其他">
+      <van-cell title="清除缓存" :value="cacheSize">
+        <template #right-icon>
+          <van-button size="small" type="primary" @click="clearCache">清除</van-button>
+        </template>
+      </van-cell>
+      <van-cell title="当前版本" value="v1.0.0" />
+    </van-cell-group>
 
-      <q-separator spaced />
-
-      <q-item-label header>隐私设置</q-item-label>
-
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>修改密码</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-icon name="chevron_right" />
-        </q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>隐私政策</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-icon name="chevron_right" />
-        </q-item-section>
-      </q-item>
-
-      <q-separator spaced />
-
-      <q-item-label header>其他</q-item-label>
-
-      <q-item>
-        <q-item-section>
-          <q-item-label>清除缓存</q-item-label>
-          <q-item-label caption>{{ cacheSize }}</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-btn flat color="primary" label="清除" @click="clearCache" />
-        </q-item-section>
-      </q-item>
-
-      <q-item>
-        <q-item-section>
-          <q-item-label>当前版本</q-item-label>
-          <q-item-label caption>v1.0.0</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
-
-    <div class="logout-section q-pa-md">
-      <q-btn
-        color="negative"
-        class="full-width"
-        label="退出登录"
+    <div class="logout-section">
+      <van-button
+        type="danger"
+        block
         @click="handleLogout"
-      />
+      >退出登录</van-button>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -96,7 +55,8 @@ const handleLogout = () => {
 
 <style scoped>
 .settings-page {
-  background-color: #f5f5f5;
+  background-color: var(--color-background-2);
+  min-height: 100vh;
 }
 
 .logout-section {

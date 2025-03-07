@@ -1,8 +1,20 @@
 import type { Router, RouteLocationRaw, RouteLocationNamedRaw } from 'vue-router'
-import { defaultNavigation } from 'src/config/navigation'
+import { tabBarList } from 'src/router/tabbar'
 
 // 获取所有 tab 页面的路由名称
-const tabPageNames = defaultNavigation.tabs.map(tab => tab.route.name as string)
+const tabPageNames = tabBarList.map(tab => tab.name as string)
+
+// 自定义路由类型
+interface CustomRouteLocation {
+  name?: string
+  path?: string
+  params?: Record<string, string | number>
+  query?: Record<string, string | number | Array<string | number>>
+  meta?: {
+    transition?: string
+    [key: string]: string | number | boolean | undefined
+  }
+}
 
 class NavigationManagerClass {
   private router: Router | null = null
@@ -37,7 +49,12 @@ class NavigationManagerClass {
       return
     }
 
-    await this.router.replace(route)
+    // Tab 切换不需要动画
+    const normalizedRoute = this.normalizeRoute(route)
+    await this.router.replace({
+      ...normalizedRoute,
+      meta: { transition: 'none' }
+    } as RouteLocationRaw)
   }
 
   // 普通页面导航
@@ -52,7 +69,12 @@ class NavigationManagerClass {
       return this.switchTab(route)
     }
 
-    await this.router.push(route)
+    // 新页面从右往左滑入
+    const normalizedRoute = this.normalizeRoute(route)
+    await this.router.push({
+      ...normalizedRoute,
+      meta: { transition: 'slide-left' }
+    } as RouteLocationRaw)
   }
 
   // 返回上一页
@@ -67,6 +89,10 @@ class NavigationManagerClass {
       return
     }
 
+    // 设置返回动画
+    if (currentRoute.meta.transition !== 'none') {
+      currentRoute.meta.transition = 'slide-right'
+    }
     this.router.back()
   }
 
@@ -77,7 +103,20 @@ class NavigationManagerClass {
       return
     }
 
-    await this.router.replace(route)
+    // 重定向不需要动画
+    const normalizedRoute = this.normalizeRoute(route)
+    await this.router.replace({
+      ...normalizedRoute,
+      meta: { transition: 'none' }
+    } as RouteLocationRaw)
+  }
+
+  // 规范化路由对象
+  private normalizeRoute(route: RouteLocationRaw): CustomRouteLocation {
+    if (typeof route === 'string') {
+      return { path: route }
+    }
+    return route as CustomRouteLocation
   }
 }
 

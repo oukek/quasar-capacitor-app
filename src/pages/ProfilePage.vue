@@ -1,37 +1,25 @@
 <template>
-  <q-page class="profile-page">
+  <div class="profile-page">
     <div class="user-info">
       <div class="avatar">
-        <q-avatar size="80px">
-          <img src="https://cdn.quasar.dev/img/avatar.png">
-        </q-avatar>
+        <van-image
+          round
+          width="10rem"
+          height="10rem"
+          src="https://cdn.quasar.dev/img/avatar.png"
+        />
       </div>
       <h2 class="username">用户名</h2>
     </div>
 
-    <q-list bordered separator>
-      <q-item clickable v-ripple @click="goToSettings">
-        <q-item-section avatar>
-          <q-icon name="settings" />
-        </q-item-section>
-        <q-item-section>设置</q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-icon name="help" />
-        </q-item-section>
-        <q-item-section>帮助与反馈</q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-icon name="info" />
-        </q-item-section>
-        <q-item-section>关于我们</q-item-section>
-      </q-item>
-    </q-list>
-  </q-page>
+    <van-cell-group inset>
+      <van-cell title="设置" icon="setting-o" is-link @click="goToSettings" />
+      <van-cell title="帮助与反馈" icon="service-o" is-link />
+      <van-cell title="关于我们" icon="info-o" is-link >
+        <template #right-icon></template>
+      </van-cell>
+    </van-cell-group>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -45,6 +33,7 @@ const goToSettings = () => {
 <style scoped>
 .profile-page {
   padding: 16px;
+  background-color: var(--color-background-2);
 }
 
 .user-info {

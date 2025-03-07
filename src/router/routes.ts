@@ -1,26 +1,20 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { defaultNavigation } from 'src/config/navigation'
-
-// 从导航配置中提取路由
-const tabRoutes = defaultNavigation.tabs.map(tab => tab.route)
+import { tabBarList } from 'src/router/tabbar'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      ...tabRoutes,
+      ...tabBarList,
       {
         path: '/settings',
         name: 'settings',
         component: () => import('pages/SettingsPage.vue'),
         meta: {
           title: '设置',
-          showHeader: true,
-          showBack: true
         }
       },
-      // 添加更多路由...
     ]
   }
 ]
