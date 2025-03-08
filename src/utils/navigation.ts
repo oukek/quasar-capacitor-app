@@ -1,5 +1,5 @@
-import type { Router, RouteLocationRaw, RouteLocationNamedRaw } from 'vue-router'
 import { tabBarList } from 'src/router/tabbar'
+import type { RouteLocationNamedRaw, RouteLocationRaw, Router } from 'vue-router'
 
 // 获取所有 tab 页面的路由名称
 const tabPageNames = tabBarList.map(tab => tab.name as string)
@@ -53,7 +53,7 @@ class NavigationManagerClass {
     const normalizedRoute = this.normalizeRoute(route)
     await this.router.replace({
       ...normalizedRoute,
-      meta: { transition: 'none' }
+      meta: { transition: 'none' },
     } as RouteLocationRaw)
   }
 
@@ -73,12 +73,12 @@ class NavigationManagerClass {
     const normalizedRoute = this.normalizeRoute(route)
     await this.router.push({
       ...normalizedRoute,
-      meta: { transition: 'slide-left' }
+      meta: { transition: 'slide-left' },
     } as RouteLocationRaw)
   }
 
   // 返回上一页
-  async navigateBack() {
+  navigateBack() {
     if (!this.router) {
       console.error('NavigationManager 未初始化')
       return
@@ -107,7 +107,7 @@ class NavigationManagerClass {
     const normalizedRoute = this.normalizeRoute(route)
     await this.router.replace({
       ...normalizedRoute,
-      meta: { transition: 'none' }
+      meta: { transition: 'none' },
     } as RouteLocationRaw)
   }
 

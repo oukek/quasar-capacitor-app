@@ -43,11 +43,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
-import type { RouteRecordRaw} from 'vue-router';
-import { useRoute } from 'vue-router'
 import { tabBarList } from 'src/router/tabbar'
-import { switchTab, navigateBack, NavigationManager } from 'src/utils/navigation'
+import { navigateBack, NavigationManager, switchTab } from 'src/utils/navigation'
+import { computed, reactive, ref, watch } from 'vue'
+import type { RouteRecordRaw } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
@@ -56,7 +56,7 @@ const currentTab = ref<number>(0)
 const _tabBarList = reactive<{
   route: RouteRecordRaw
   badge?: number | string
-}[]>(tabBarList.map(tab=> {
+}[]>(tabBarList.map((tab) => {
   return {
     route: tab,
   }

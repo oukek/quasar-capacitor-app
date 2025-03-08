@@ -14,7 +14,7 @@ export const tabBarList: RouteRecordRaw[] = [
     meta: {
       title: '首页',
       icon: 'home',
-    }
+    },
   },
   {
     path: '/profile',
@@ -23,6 +23,6 @@ export const tabBarList: RouteRecordRaw[] = [
     meta: {
       title: '我的',
       icon: 'person',
-    }
-  }
+    },
+  },
 ]

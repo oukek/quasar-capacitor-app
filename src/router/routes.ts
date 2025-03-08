@@ -1,5 +1,5 @@
-import type { RouteRecordRaw } from 'vue-router'
 import { tabBarList } from 'src/router/tabbar'
+import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -13,11 +13,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/SettingsPage.vue'),
         meta: {
           title: '设置',
-        }
+        },
       },
-    ]
-  }
+    ],
+  },
 ]
 
 export default routes
-
