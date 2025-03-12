@@ -17,6 +17,7 @@
     "build:ios": "quasar build -m capacitor -T ios"
   },
   "dependencies": {
+    "@capacitor/network": "^7.0.0",
     "@quasar/extras": "^1.16.17",
     "axios": "^1.8.2",
     "date-fns": "^4.1.0",

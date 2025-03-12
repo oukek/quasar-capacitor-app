@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@capacitor/network':
+        specifier: ^7.0.0
+        version: 7.0.0(@capacitor/core@7.0.1)
       '@quasar/extras':
         specifier: ^1.16.17
         version: 1.16.17
@@ -141,6 +144,11 @@ packages:
     resolution: {integrity: sha512-RN6S1C1k7ue57DFmJM4EizzsYBrahTTiMhcnlHspFLaojgHbFWZbYq1VriuRKysPU1ka/P+klsdtRFsB5K9jyw==, tarball: https://registry.npmjs.org/@capacitor/ios/-/ios-7.0.1.tgz}
     peerDependencies:
       '@capacitor/core': ^7.0.0
+
+  '@capacitor/network@7.0.0':
+    resolution: {integrity: sha512-cIr0tElqiAKxbRJ7/OGOPssSyaVpyU8ushjcOItdYaGu/L9RAI+4tKdRCoL9cngCycgcUGWn+SkuN9oJCf8iHw==, tarball: https://registry.npmjs.org/@capacitor/network/-/network-7.0.0.tgz}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
 
   '@esbuild/aix-ppc64@0.24.2':
     resolution: {integrity: sha512-thpVCb/rhxE/BnMLQ7GReQLLN8q9qbHmI55F4489/ByVg2aQaQ6kbcLb6FHkocZzQhxc4gx0sCk0tJkKBFzDhA==, tarball: https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.24.2.tgz}
@@ -3153,6 +3161,10 @@ snapshots:
       tslib: 2.8.1
 
   '@capacitor/ios@7.0.1(@capacitor/core@7.0.1)':
+    dependencies:
+      '@capacitor/core': 7.0.1
+
+  '@capacitor/network@7.0.0(@capacitor/core@7.0.1)':
     dependencies:
       '@capacitor/core': 7.0.1
 
