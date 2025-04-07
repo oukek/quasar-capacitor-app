@@ -93,7 +93,7 @@ class NavigationManagerClass {
     if (currentRoute.meta.transition !== 'none') {
       currentRoute.meta.transition = 'slide-right'
     }
-    this.router.back()
+    this.router.go(-1)
   }
 
   // 重定向到页面

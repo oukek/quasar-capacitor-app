@@ -86,7 +86,7 @@ class VStorage {
   }
 
   public clearAll() {
-    // localStorage
+    localStorage.clear()
   }
 }
 

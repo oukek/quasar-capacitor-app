@@ -137,6 +137,7 @@ export default [
       '@typescript-eslint/no-redundant-type-constituents': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/only-throw-error': 'off',
+      'vue/multi-word-component-names': 'off',
     },
   },
 

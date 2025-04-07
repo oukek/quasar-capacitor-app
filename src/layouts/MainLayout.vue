@@ -11,9 +11,8 @@
         safe-area-inset-top
       />
 
-      <div class="content-wrapper">
-        <router-view>
-        </router-view>
+      <div class="content-wrapper" :style="contentStyle">
+        <router-view />
       </div>
 
       <van-tabbar
@@ -88,6 +87,24 @@ const showTabBar = computed(() => {
   return tabBarList.length > 1 && NavigationManager.isTabPage(route.name as string)
 })
 
+// 计算内容区域样式
+const contentStyle = computed(() => {
+  let heightCalc = '100vh'
+
+  if (showHeader.value) {
+    heightCalc += ' - var(--van-nav-bar-height) - env(safe-area-inset-top)'
+  }
+
+  if (showTabBar.value) {
+    heightCalc += ' - var(--van-tabbar-height) - env(safe-area-inset-bottom)'
+  }
+
+  return {
+    width: '100vw',
+    height: `calc(${heightCalc})`,
+  }
+})
+
 // 监听路由变化，更新当前选中的 tab
 watch(() => route.name, (newName) => {
   if (newName) {
@@ -107,6 +124,6 @@ watch(() => route.name, (newName) => {
 }
 
 .content-wrapper {
-  height: 100%;
+  flex: 1;
 }
 </style>

@@ -29,7 +29,7 @@ const defaultHeaders = {
 
 // 超时时间
 const timeout = 100000
-const host = 'https://www.advink.cn/api'
+const host = import.meta.env.VITE_APP_API_HOST
 
 const config = {
   host,
