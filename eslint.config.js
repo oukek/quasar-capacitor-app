@@ -1,13 +1,13 @@
 import js from '@eslint/js'
 import pluginQuasar from '@quasar/app-vite/eslint'
 import stylisticPlugin from '@stylistic/eslint-plugin'
-import vueTsEslintConfig from '@vue/eslint-config-typescript'
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
 import pluginVue from 'eslint-plugin-vue'
 import globals from 'globals'
 
-export default [
+export default defineConfigWithVueTs([
   {
     /**
      * Ignore the following files.
@@ -36,6 +36,10 @@ export default [
    *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
    */
   ...pluginVue.configs['flat/essential'],
+
+  // TypeScript support for Vue
+  vueTsConfigs.recommended,
+
   stylisticPlugin.configs.customize({
     indent: 2,
     semi: false,
@@ -47,30 +51,6 @@ export default [
       'unused-imports': unusedImports,
     },
   },
-  {
-    files: ['**/*.ts', '**/*.vue'],
-    rules: {
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports' },
-      ],
-    },
-  },
-  // https://github.com/vuejs/eslint-config-typescript
-  ...vueTsEslintConfig({
-    // Optional: extend additional configurations from typescript-eslint'.
-    // Supports all the configurations in
-    // https://typescript-eslint.io/users/configs#recommended-configurations
-    extends: [
-      // By default, only the 'recommendedTypeChecked' rules are enabled.
-      'recommendedTypeChecked',
-      // You can also manually enable the stylistic rules.
-      // "stylistic",
-
-      // Other utility configurations, such as 'eslintRecommended', (note that it's in camelCase)
-      // are also extendable here. But we don't recommend using them directly.
-    ],
-  }),
 
   {
     languageOptions: {
@@ -96,6 +76,10 @@ export default [
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports' },
+      ],
       'no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'warn',
       'unused-imports/no-unused-vars': [
@@ -138,6 +122,7 @@ export default [
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/only-throw-error': 'off',
       'vue/multi-word-component-names': 'off',
+      '@typescript-eslint/no-namespace': 'off',
     },
   },
 
@@ -149,4 +134,4 @@ export default [
       },
     },
   },
-]
+])

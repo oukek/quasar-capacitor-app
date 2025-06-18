@@ -41,8 +41,46 @@ export default defineConfig((/* ctx */) => {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf: UserConfig) {
-      // },
+      extendViteConf(viteConf) {
+        viteConf.plugins?.push(
+          AutoImport({
+            // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+            imports: [
+              'vue',
+              'vue-router',
+              // 手动配置 Vant 的 API 函数
+              {
+                vant: [
+                  // Toast 相关
+                  'showToast',
+                  'showLoadingToast',
+                  'showSuccessToast',
+                  'showFailToast',
+                  'closeToast',
+                  // Dialog 相关
+                  'showDialog',
+                  'showConfirmDialog',
+                  'closeDialog',
+                  // Notify 相关
+                  'showNotify',
+                  'closeNotify',
+                  // ImagePreview 相关
+                  'showImagePreview',
+                  'closeImagePreview',
+                ],
+              },
+            ],
+            // 生成类型声明文件
+            dts: './auto-imports.d.ts',
+          }),
+          Components({
+            // 自动导入 Vant 组件
+            resolvers: [VantResolver()],
+            // 生成类型声明文件
+            dts: './components.d.ts',
+          }),
+        )
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
@@ -53,12 +91,6 @@ export default defineConfig((/* ctx */) => {
             useFlatConfig: true,
           },
         }, { server: false }],
-        AutoImport({
-          resolvers: [VantResolver()],
-        }),
-        Components({
-          resolvers: [VantResolver()],
-        }),
       ],
     },
 
