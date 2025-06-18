@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">game study</string>
+    <string name="title_activity_main">game study</string>
+    <string name="package_name">com.charlie.gamestudy</string>
+    <string name="custom_url_scheme">com.charlie.gamestudy</string>
+</resources>

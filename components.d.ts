@@ -10,6 +10,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     BaseButton: typeof import('./src/components/BaseButton.vue')['default']
     BaseInput: typeof import('./src/components/BaseInput.vue')['default']
+    Confirm: typeof import('./src/components/dialog/ui/Confirm.vue')['default']
+    DialogApp: typeof import('./src/components/dialog/DialogApp.vue')['default']
+    MiddleComponent: typeof import('./src/components/dialog/MiddleComponent.vue')['default']
+    PhotoPreview: typeof import('./src/components/dialog/ui/PhotoPreview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VanButton: typeof import('vant/es')['Button']
